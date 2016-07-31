@@ -681,7 +681,7 @@ public class HDF5GettersV2 {
  
 	public static void extractSongInfo(String filename, FileWriter fw) {
 
-		System.out.println(songCount++);
+		//System.out.println(songCount++);
 		// System.out.println("file: " + filename);
 		H5File h5 = hdf5_open_readonly(filename);
 		int nSongs = get_num_songs(h5);
@@ -752,7 +752,13 @@ public class HDF5GettersV2 {
 			// fw.write(Arrays.toString(get_bars_confidence(h5))+",");
 			// fw.write(Arrays.toString(get_bars_start(h5))+",");
 			// fw.write(Arrays.toString(get_beats_confidence(h5))+",");
-			fw.write(get_beats_start(h5).length + "\t");
+			int length = 0;
+			try {
+				length = get_beats_start(h5).length;
+			} catch (Exception no_beats) {
+				length = 0;
+			}
+			fw.write(length + "\t");
 			fw.write(get_danceability(h5) + "\t");
 			fw.write(get_duration(h5) + "\t");
 			fw.write(get_end_of_fade_in(h5) + "\t");
@@ -771,7 +777,12 @@ public class HDF5GettersV2 {
 			// fw.write(Arrays.toString(get_segments_loudness_max_time(h5))+",");
 			// fw.write(Arrays.toString(get_segments_loudness_start(h5))+",");
 			// fw.write(Arrays.toString(get_segments_pitches(h5))+",");
-			// fw.write(Arrays.toString(get_segments_start(h5))+",");
+			try {
+				length = get_segments_start(h5).length;
+			} catch (Exception no_beats) {
+				length = 0;
+			}
+			fw.write(length+",");
 			// fw.write(Arrays.toString(get_segments_timbre(h5))+",");
 			
 			String hot = new Double(get_song_hotttnesss(h5)).toString();
@@ -800,8 +811,14 @@ public class HDF5GettersV2 {
 			fw.write(Arrays.toString(get_similar_artists(h5))+"\t");
 			fw.write("\n");
 		} catch (Exception e) {
-			System.out.println("something went wrong:");
-			e.printStackTrace();
+			//System.out.println("something went wrong:");
+			//e.printStackTrace();
+			try {
+				fw.write("\n");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				//e1.printStackTrace();
+			}
 		}
 		hdf5_close(h5);
 	}
@@ -813,8 +830,9 @@ public class HDF5GettersV2 {
 		for (File file : listOfFiles) {
 			if (file.isHidden())
 				continue;
-			if (file.isFile())
+			if (file.isFile()) {
 				extractSongInfo(file.getAbsolutePath(), fw);
+			}
 			else
 				browseFolder(file.getAbsolutePath(), fw);
 		}
@@ -839,7 +857,7 @@ public class HDF5GettersV2 {
 			System.out.println("   java hdf5_getters <some HDF5 song file>");
 			System.exit(0);
 		}
-		File fileToWrite = new File("bigdatafile.tsv");
+		File fileToWrite = new File("bigdatafile_A.tsv");
 
 		// if file doesnt exists, then create it
 		if (!fileToWrite.exists()) {
