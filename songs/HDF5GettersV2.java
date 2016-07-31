@@ -695,41 +695,53 @@ public class HDF5GettersV2 {
 				fw.write("Artist_7dID" + "\t");
 				fw.write("Artist_familiarity" + "\t");
 				fw.write("Artist_hotness" + "\t");
-				fw.write("Artist_ID" + "\t");
+				fw.write("Artist_ID" + "\t");				
 				fw.write("Artist_latitude" + "\t");
 				fw.write("Artist_location" + "\t");
-				fw.write("Artist_longitude" + "\t");
-		
-				fw.write("Artist_name" + "\t");
-		
+				fw.write("Artist_longitude" + "\t");				
+				fw.write("Artist_name" + "\t");		
 				fw.write("Audio_MD5" + "\t");
-				fw.write("Number_of_beats" + "\t");
+				fw.write("Bars_Confidence" + "\t");
+				fw.write("Bars_Start" + "\t");
+				fw.write("Beats_Confidence" + "\t");				
 				fw.write("Danceability" + "\t");
 				fw.write("Duration" + "\t");
 				fw.write("End_of_fade_in" + "\t");
 				fw.write("Energy" + "\t");
+				fw.write("Key" + "\t");				
+				fw.write("Key Confidence" + "\t");
 				fw.write("loudness" + "\t");
+				fw.write("Mode" + "\t");
+				fw.write("Mode Confidence" + "\t");
 				fw.write("release" + "\t");
-				fw.write("release_7dID" + "\t");
-
+				fw.write("release_7dID" + "\t");				
+				fw.write("SectionsConfidence" + "\t");
+				fw.write("SectionsStart" + "\t");
+				fw.write("SegmentsConfidence" + "\t");
+				fw.write("SegmentsLoudnessMax" + "\t");
+				fw.write("SegmentsLoudenssMaxTime" + "\t");
+				fw.write("SegmentsLoudenssStart" + "\t");
+				fw.write("Segment Pitches" + "\t");
+				fw.write("Segment Timbre" + "\t");
 				fw.write("Hotness" + "\t");
 				fw.write("SongID" + "\t");
 				fw.write("Start_of_fade_out" + "\t");
+				fw.write("TatumsConfidence" + "\t");
+				fw.write("TatumsStart" + "\t");
 				fw.write("Tempo" + "\t");
+				fw.write("TimeSign" + "\t");
+				fw.write("TimeSignConfidence" + "\t");
 				fw.write("Title" + "\t");
 				fw.write("TrackID" + "\t");
 				fw.write("Track_7dID" + "\t");
-				fw.write("Year" + "\t");
-				
+				fw.write("Year" + "\t");				
 				fw.write("Artist_mbID" + "\t");
 				fw.write("Artist_mbTags" + "\t");
-				fw.write("Artist_mbCount" + "\t");
-				
+				fw.write("Artist_mbCount" + "\t");				
 				fw.write("Artist_PlaymeID" + "\t");
 				fw.write("Artist_Terms" + "\t");
-				fw.write("Artist_TermFrequency" + "\t");
-				fw.write("Artist_TermWeight" + "\t");
-				
+				fw.write("Artist_TermsFrequency" + "\t");
+				fw.write("Artist_TermWeight" + "\t");				
 				fw.write("Similar_Artists" + "\t");
 				fw.write("\n");
 			}
@@ -739,75 +751,56 @@ public class HDF5GettersV2 {
 			fw.write(get_artist_7digitalid(h5) + "\t");
 			fw.write(new Double(get_artist_familiarity(h5)).toString() + "\t");
 			fw.write(new Double(get_artist_hotttnesss(h5)).toString() + "\t");
-			fw.write(get_artist_id(h5) + "\t");
+			fw.write(get_artist_id(h5) + "\t");			
 			String latlong = new Double(get_artist_latitude(h5)).toString();
 			fw.write(latlong.equals("NaN") ? "\t" : latlong + "\t");
 			fw.write(get_artist_location(h5).replace(",", "-") + "\t");
 			String longilong = new Double(get_artist_longitude(h5)).toString();
-			fw.write(longilong.equals("NaN") ? "\t" : longilong + "\t");
-			
-			fw.write(get_artist_name(h5) + "\t");
-		
+			fw.write(longilong.equals("NaN") ? "\t" : longilong + "\t");			
+			fw.write(get_artist_name(h5) + "\t");		
 			fw.write(get_audio_md5(h5) + "\t");
-			// fw.write(Arrays.toString(get_bars_confidence(h5))+",");
-			// fw.write(Arrays.toString(get_bars_start(h5))+",");
-			// fw.write(Arrays.toString(get_beats_confidence(h5))+",");
-			int length = 0;
-			try {
-				length = get_beats_start(h5).length;
-			} catch (Exception no_beats) {
-				length = 0;
-			}
-			fw.write(length + "\t");
+			fw.write(Arrays.toString(get_bars_confidence(h5))+",");
+			fw.write(Arrays.toString(get_bars_start(h5))+",");
+			fw.write(Arrays.toString(get_beats_confidence(h5))+",");			
 			fw.write(get_danceability(h5) + "\t");
 			fw.write(get_duration(h5) + "\t");
 			fw.write(get_end_of_fade_in(h5) + "\t");
 			fw.write(get_energy(h5) + "\t");
-			// fw.write(get_key(h5)+"\t");
-			// fw.write(get_key_confidence(h5)+"\t");
+			fw.write(get_key(h5)+"\t");
+			fw.write(get_key_confidence(h5)+"\t");
 			fw.write(get_loudness(h5) + "\t");
-			// fw.write(get_mode(h5)+"\t");
-			// fw.write(get_mode_confidence(h5)+"\t");
+			fw.write(get_mode(h5)+"\t");
+			fw.write(get_mode_confidence(h5)+"\t");
 			fw.write(get_release(h5) + "\t");
 			fw.write(get_release_7digitalid(h5) + "\t");
-			// fw.write(Arrays.toString(get_sections_confidence(h5))+",");
-			// fw.write(Arrays.toString(get_sections_start(h5))+",");
-			// fw.write(Arrays.toString(get_segments_confidence(h5))+",");
-			// fw.write(Arrays.toString(get_segments_loudness_max(h5))+",");
-			// fw.write(Arrays.toString(get_segments_loudness_max_time(h5))+",");
-			// fw.write(Arrays.toString(get_segments_loudness_start(h5))+",");
-			// fw.write(Arrays.toString(get_segments_pitches(h5))+",");
-			try {
-				length = get_segments_start(h5).length;
-			} catch (Exception no_beats) {
-				length = 0;
-			}
-			fw.write(length+",");
-			// fw.write(Arrays.toString(get_segments_timbre(h5))+",");
-			
+			fw.write(Arrays.toString(get_sections_confidence(h5))+",");
+			fw.write(Arrays.toString(get_sections_start(h5))+",");
+			fw.write(Arrays.toString(get_segments_confidence(h5))+",");
+			fw.write(Arrays.toString(get_segments_loudness_max(h5))+",");
+			fw.write(Arrays.toString(get_segments_loudness_max_time(h5))+",");
+			fw.write(Arrays.toString(get_segments_loudness_start(h5))+",");
+			fw.write(Arrays.toString(get_segments_pitches(h5))+",");
+			fw.write(Arrays.toString(get_segments_timbre(h5))+",");			
 			String hot = new Double(get_song_hotttnesss(h5)).toString();
 			fw.write(hot.equals("NaN") ? "\t" : hot + "\t");
 			fw.write(get_song_id(h5) + "\t");
 			fw.write(get_start_of_fade_out(h5) + "\t");
-			// fw.write(Arrays.toString(get_tatums_confidence(h5))+"\t");
-			// fw.write(Arrays.toString(get_tatums_start(h5))+"\t");
+			fw.write(Arrays.toString(get_tatums_confidence(h5))+"\t");
+			fw.write(Arrays.toString(get_tatums_start(h5))+"\t");
 			fw.write(get_tempo(h5) + "\t");
-			// fw.write(get_time_signature(h5)+"\t");
-			// fw.write(get_time_signature_confidence(h5)+"\t");
+			fw.write(get_time_signature(h5)+"\t");
+			fw.write(get_time_signature_confidence(h5)+"\t");
 			fw.write(get_title(h5) + "\t");
 			fw.write(get_track_id(h5) + "\t");
 			fw.write(get_track_7digitalid(h5) + "\t");
-			fw.write(get_year(h5) + "\t");
-			
+			fw.write(get_year(h5) + "\t");			
 			fw.write(get_artist_mbid(h5)+"\t");
 			fw.write(Arrays.toString(get_artist_mbtags(h5))+"\t");
-			fw.write(Arrays.toString(get_artist_mbtags_count(h5))+"\t");
-			
+			fw.write(Arrays.toString(get_artist_mbtags_count(h5))+"\t");			
 			fw.write(get_artist_playmeid(h5)+"\t");
 			fw.write(Arrays.toString(get_artist_terms(h5))+"\t");
 			fw.write(Arrays.toString(get_artist_terms_freq(h5))+"\t");
-			fw.write(Arrays.toString(get_artist_terms_weight(h5))+"\t");
-			
+			fw.write(Arrays.toString(get_artist_terms_weight(h5))+"\t");			
 			fw.write(Arrays.toString(get_similar_artists(h5))+"\t");
 			fw.write("\n");
 		} catch (Exception e) {
