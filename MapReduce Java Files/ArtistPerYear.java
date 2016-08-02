@@ -1,3 +1,20 @@
+/*
+This is a Chained Map Reduce job to calculate the number of Artists who made debut per year.
+Chaining is done in two steps:
+
+Step 1:
+Emit (Artist Id/Debut year) pair from ArtistPerYear.java MapReduce.
+
+The output of step one is fed as input to YearToArtist.java MapReduce.
+
+Step 2
+Emit (Year/Number of Artists) pair from YearToArtist.java MapReduce.
+
+The output from step 2 is the desired result.
+
+
+*/
+
 package neu;
 
 import java.io.IOException;
