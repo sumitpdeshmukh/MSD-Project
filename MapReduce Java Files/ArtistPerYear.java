@@ -76,7 +76,7 @@ public class ArtistPerYear {
 	   }
 	
 	   public static void main(String[] args) throws Exception {
-	     JobConf conf = new JobConf(SongUserAndCount.class);
+	     JobConf conf = new JobConf(ArtistPerYear.class);
 	     conf.setJobName("Artist and Year");
 	
 	     conf.setOutputKeyClass(Text.class);
