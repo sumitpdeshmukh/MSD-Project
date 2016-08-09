@@ -37,9 +37,12 @@ public class Part3 extends HttpServlet {
        num.setPlayed(played);
        
        if(number != null){
-       Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "Ps991234#" ) );
+       Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "123456" ) );
     		Session session = driver.session();
-    		StatementResult result = session.run( "MATCH (tom {name: '"+ number +"'}) RETURN tom.name as Name, tom.born as Born, tom.roles as Role;" );
+    		StatementResult result = session.run("MATCH (song {songid: '"+ number +"'}) RETURN "
+                        + "song.Title as SongTitle, song.Hotness as SongHotness, song.Artist_name as ArtistName,"
+                        + "song.Num_Played as SongViews, song.Duration as Duration, song.User_count as Viewers,"
+                        + "song.Artist_location as Location;");
                 System.out.println(result+"===========================================");
                 if ( result.hasNext() )
     		{
@@ -49,14 +52,14 @@ public class Part3 extends HttpServlet {
                 sendPage2(request, response);
                 }
        }else if(id!=null){
-           Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "Ps991234#" ) );
+           Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "123456" ) );
     		Session session = driver.session();
-    		//StatementResult result = session.run( "MATCH (tom {name: '"+ number +"'}) RETURN tom.name as Name, tom.born as Born, tom.roles as Role;" );
-                //if ( result.hasNext() )
-    		//{
-    		  // record = result.next();
-                   sendPage3(request, response);
-    		//}
+    		StatementResult result = session.run( "CREATE(song:Song{songid:'" + id + "',"
+                        + "Title:'" + title + "'," + "Hotness:'" + hotness + "'," + "Duration:'" + duration + "',"
+                        + "Artist_name:'" + name + "'," + "Artist_location:'" + location + "'," + "User_count:'" + count + "',"
+                        + "Num_Played:'" + played + "'})");
+     
+                sendPage3(request, response);
            
        }
                 
@@ -89,18 +92,24 @@ public class Part3 extends HttpServlet {
        out.println("<TR>");
        out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>Song-ID</center></font></p></TH>");
        out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>Title</center></font></p></TH>");
-       out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>Hotness</center></font></p></TH>");
-       out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>Duration</center></font></p></TH>");
        out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>Artist Name</center></font></p></TH>");
-       out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>Artist Location</center></font></p></TH>");
+       out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>Song Hotness</center></font></p></TH>");
+       out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>Duration</center></font></p></TH>");
        out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>User Count</center></font></p></TH>");
        out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>Times Played</center></font></p></TH>");
+       out.println("<TH><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>Artist Location</center></font></p></TH>");
+
        out.println("</TR>");
        out.println("<TR>");
-           out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+record.get("Name")+"</center></font></p></TD>");
-           out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+record.get("Born")+"</center></font></p></TD>");
-           out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+record.get("Role")+"</center></font></p></TD>");
-           out.println("</TR>");
+       out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+num.getNumber()+"</center></font></p></TD>");
+       out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+record.get("SongTitle")+"</center></font></p></TD>");
+       out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+record.get("ArtistName")+"</center></font></p></TD>");
+       out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+record.get("SongHotness")+"</center></font></p></TD>");
+       out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+record.get("Duration")+"</center></font></p></TD>");
+       out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+record.get("Viewers")+"</center></font></p></TD>");
+       out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+record.get("SongViews")+"</center></font></p></TD>");
+       out.println("<TD><p style=\"text-shadow:2px 2px 8px peachpuff;\"><font color=\"white\"><center>"+record.get("Location")+"</center></font></p></TD>");
+       out.println("</TR>");
        out.println("</Table>");
        out.println("</FORM>");
        out.println("<a href='index.html'><font color=\"white\">Go To Home</font></a>");
